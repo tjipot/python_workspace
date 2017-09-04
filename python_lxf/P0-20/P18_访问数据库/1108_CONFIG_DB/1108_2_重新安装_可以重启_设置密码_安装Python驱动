@@ -1,0 +1,118 @@
+Last login: Tue Nov  8 22:34:55 on console
+172-26-114-119:~ haoranye$ mysql
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/tmp/mysql.sock' (2)
+172-26-114-119:~ haoranye$ mysql
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.6.34 MySQL Community Server (GPL)
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql> quit
+Bye
+
+===
+172-26-114-119:~ haoranye$ mysqladmin -u root -p password
+Enter password: 
+/usr/local/mysql/bin/mysqladmin: connect to server at 'localhost' failed
+error: 'Access denied for user 'root'@'localhost' (using password: YES)'
+===
+172-26-114-119:~ haoranye$ mysqladmin -u root -p password mastermas
+Enter password: 
+/usr/local/mysql/bin/mysqladmin: connect to server at 'localhost' failed
+error: 'Access denied for user 'root'@'localhost' (using password: YES)'
+===
+172-26-114-119:~ haoranye$ mysql -u root
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 5.6.34 MySQL Community Server (GPL)
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql> quit
+Bye
+
+===
+172-26-114-119:~ haoranye$ mysqladmin -u root -p password mastermas
+Enter password: 
+Warning: Using a password on the command line interface can be insecure.
+===
+//哇靠, Enter password后面直接回车就好了啊, 原先没有密码的;
+
+172-26-114-119:~ haoranye$ mysql -u root
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+===
+172-26-114-119:~ haoranye$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14
+Server version: 5.6.34 MySQL Community Server (GPL)
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql> quit
+Bye
+===
+172-26-114-119:~ haoranye$ vim /etc/my.cnf
+172-26-114-119:~ haoranye$ show variables like '%char%';
+-bash: show: command not found
+===
+172-26-114-119:~ haoranye$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 15
+Server version: 5.6.34 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show variables like '%char%';
++--------------------------+---------------------------------------------------------+
+| Variable_name            | Value                                                   |
++--------------------------+---------------------------------------------------------+
+| character_set_client     | utf8                                                    |
+| character_set_connection | utf8                                                    |
+| character_set_database   | utf8                                                    |
+| character_set_filesystem | binary                                                  |
+| character_set_results    | utf8                                                    |
+| character_set_server     | utf8                                                    |
+| character_set_system     | utf8                                                    |
+| character_sets_dir       | /usr/local/mysql-5.6.34-osx10.11-x86_64/share/charsets/ |
++--------------------------+---------------------------------------------------------+
+8 rows in set (0.00 sec)
+
+mysql> quit
+Bye
+===
+//charset设置成功了;
+
+172-26-114-119:~ haoranye$ pip install mysql-connector-python --allow-external mysql-connector-python
+DEPRECATION: --allow-external has been deprecated and will be removed in the future. Due to changes in the repository protocol, it no longer has any effect.
+Collecting mysql-connector-python
+  Could not find a version that satisfies the requirement mysql-connector-python (from versions: )
+No matching distribution found for mysql-connector-python
+172-26-114-119:~ haoranye$ pip install mysql-connector
+Collecting mysql-connector
+  Downloading mysql-connector-2.1.4.zip (355kB)
+    100% |████████████████████████████████| 358kB 22kB/s 
+Building wheels for collected packages: mysql-connector
+  Running setup.py bdist_wheel for mysql-connector ... done
+  Stored in directory: /Users/haoranye/Library/Caches/pip/wheels/bc/4c/f0/522b6d8ef8c6256057bbdb60d7ce37af99dc09d4d1414bf62d
+Successfully built mysql-connector
+Installing collected packages: mysql-connector
+Successfully installed mysql-connector-2.1.4
+===
+//成功安装了后一种驱动了:mysql-connector;
+
+172-26-114-119:~ haoranye$ 

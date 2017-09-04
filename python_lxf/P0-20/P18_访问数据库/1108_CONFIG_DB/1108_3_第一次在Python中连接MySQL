@@ -1,0 +1,33 @@
+Last login: Tue Nov  8 22:35:40 on ttys000
+172-26-114-119:~ haoranye$ python3
+Python 3.5.1 |Anaconda 4.0.0 (x86_64)| (default, Dec  7 2015, 11:24:55) 
+[GCC 4.2.1 (Apple Inc. build 5577)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import mysql.connector
+>>> conn = mysql.connector.connect(user='root', password='mastermas', database='test')
+>>> cursor = conn.cursor()
+>>> cursor.execute('create table user (id varchar(20) primary key, name varchar(20))')
+>>> cursor.execute('insert into user (id, name) values (%s, %s)', ['1', 'Haoran'])
+>>> cursor.rowcount
+1
+>>> conn.commit()
+>>> cursor.close()
+True
+>>> cursor = conn.cursor()
+>>> cursor.execute('select * from user where id = %s', ('1',))
+>>> values = cursor.fetchall()
+>>> values
+[('1', 'Haoran')]
+>>> cursor.close()
+True
+>>> conn.close()
+>>> 
+
+
+
+
+
+
+
+
+

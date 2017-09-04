@@ -1,0 +1,53 @@
+Last login: Tue Nov  8 08:39:30 on console
+172-26-114-119:~ haoranye$ cd desktopp
+-bash: cd: desktopp: No such file or directory
+172-26-114-119:~ haoranye$ cd desktop
+172-26-114-119:desktop haoranye$ python3 app.py
+Traceback (most recent call last):
+  File "app.py", line 4, in <module>
+    from aiohttp import web
+ImportError: No module named 'aiohttp'
+172-26-114-119:desktop haoranye$ echo PATH
+PATH
+172-26-114-119:desktop haoranye$ echo $PATH
+/Users/haoranye/anaconda/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:/usr/local/mysql/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/aria2/bin:/usr/texbin:/Users/haoranye/bin:/sbin
+172-26-114-119:desktop haoranye$ python3 app.py
+Traceback (most recent call last):
+  File "app.py", line 4, in <module>
+    from aiohttp import web
+ImportError: No module named 'aiohttp'
+172-26-114-119:desktop haoranye$ sudo pip install aiohttp
+Password:
+The directory '/Users/haoranye/Library/Caches/pip/http' or its parent directory is not owned by the current user and the cache has been disabled. Please check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+The directory '/Users/haoranye/Library/Caches/pip' or its parent directory is not owned by the current user and caching wheels has been disabled. check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+Collecting aiohttp
+  Downloading aiohttp-1.1.1.tar.gz (508kB)
+    100% |████████████████████████████████| 512kB 462kB/s 
+Collecting chardet (from aiohttp)
+  Downloading chardet-2.3.0.tar.gz (164kB)
+    100% |████████████████████████████████| 174kB 784kB/s 
+Collecting multidict>=2.0 (from aiohttp)
+  Downloading multidict-2.1.2.tar.gz (91kB)
+    100% |████████████████████████████████| 92kB 431kB/s 
+Collecting async_timeout>=1.1.0 (from aiohttp)
+  Downloading async_timeout-1.1.0-py3-none-any.whl
+Collecting yarl>=0.5.0 (from aiohttp)
+  Downloading yarl-0.7.0.tar.gz (117kB)
+    100% |████████████████████████████████| 122kB 274kB/s 
+Installing collected packages: chardet, multidict, async-timeout, yarl, aiohttp
+  Running setup.py install for chardet ... done
+  Running setup.py install for multidict ... done
+  Running setup.py install for yarl ... done
+  Running setup.py install for aiohttp ... done
+Successfully installed aiohttp-1.1.1 async-timeout-1.1.0 chardet-2.3.0 multidict-2.1.2 yarl-0.7.0
+172-26-114-119:desktop haoranye$ 
+
+======
+http://stackoverflow.com/questions/17309288/importerror-no-module-named-requests
+Requests is not a built in module, so you will have to download it. You can get it here: https://pypi.python.org/pypi/requests
+OSX/Linux
+Use $ sudo pip install requests if you have pip installed
+On OSX you can also use sudo easy_install -U requests if you have easy_install installed.
+
+
+

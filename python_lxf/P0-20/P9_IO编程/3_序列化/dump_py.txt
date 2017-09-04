@@ -1,0 +1,13 @@
+>>> import pickle
+>>> d = dict(name = 'bob', age=20, score = 88)
+>>> pickle.dumps(d)
+b'\x80\x03}q\x00(X\x04\x00\x00\x00nameq\x01X\x03\x00\x00\x00bobq\x02X\x03\x00\x00\x00ageq\x03K\x14X\x05\x00\x00\x00scoreq\x04KXu.'
+>>> f = open('dump.txt', 'wb')
+>>> pickle.dump(d, f)
+>>> f.close()
+>>> f = open('dump.txt', 'rb')
+>>> d = pickle.load(f)
+>>> f.close()
+>>> d
+{'name': 'bob', 'age': 20, 'score': 88}
+>>> 

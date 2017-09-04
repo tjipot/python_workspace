@@ -1,0 +1,46 @@
+>>> import os
+>>> os.name
+'posix'
+
+>>> os.uname()
+posix.uname_result(
+	sysname='Darwin',
+	nodename='POSIX',
+	release='13.4.0',
+	version='Darwin Kernel Version 13.4.0: Mon Jan 11 18:17:34 PST 2016; root:xnu-2422.115.15~1/RELEASE_X86_64',
+	machine='x86_64')
+
+>>> os.environ
+environ({'__CF_USER_TEXT_ENCODING': '0x1F5:25:52',
+	'LANG': 'zh_CN.UTF-8',
+	'HOME': '/Users/haoranye',
+	'TMPDIR': '/var/folders/5h/h0xddc3133s78n2nyhbkmf5r0000gn/T/',
+	'USER': 'HY',
+	'SHLVL': '1',
+	'OLDPWD': '/Users/haoranye/Desktop/UNICODE_X/0_PYTHON_UNIVESRE',
+	'__CHECKFIX1436934': '1',
+	'TERM_PROGRAM_VERSION': '326',
+	'LOGNAME': 'HY',
+	'SECURITYSESSIONID': '186a5',
+	'TERM_SESSION_ID': '97702B7F-04A0-4135-9BE6-A510CDD6E575',
+	'Apple_PubSub_Socket_Render': '/tmp/launch-niWktN/Render',
+	'TERM_PROGRAM': 'Apple_Terminal',
+	'PATH': '/Users/haoranye/anaconda/bin:
+		/Library/Frameworks/Python.framework/Versions/3.5/bin:
+		/Library/Frameworks/Python.framework/Versions/3.5/bin:
+		/usr/local/mysql/bin:
+		/usr/bin:
+		/bin:
+		/usr/sbin:
+		/sbin:
+		/usr/local/bin:
+		/usr/local/aria2/bin:
+		/usr/texbin:
+		/Users/haoranye/bin:
+		/sbin',
+	'_': '/Users/haoranye/anaconda/bin/python3',
+	'PWD': '/Users/haoranye/Desktop/UNICODE_X/0_PYTHON_UNIVESRE/P9_IO编程/0_文件读写',
+	'SHELL': '/bin/bash',
+	'TERM': 'xterm-256color',
+	'SSH_AUTH_SOCK': '/tmp/launch-M61Oaw/Listeners'})
+>>> 
