@@ -1,5 +1,6 @@
 import json
 
+# 10.4.2
 # 如果以前存储了用户名, 就加载它, 否则, 提示输入用户名并存储;
 filename = 'username.json'
 try:
