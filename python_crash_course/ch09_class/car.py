@@ -1,3 +1,5 @@
+"""一个可用于表示汽车的类"""
+
 class Car():
 	def __init__(self, make, model, year):
 		self.make = make
@@ -22,9 +24,31 @@ class Car():
 	def increment_odometer(self, miles):
 		self.odometer_reading += miles
 
+
+class Battery():
+	"""一次模拟电动汽车电瓶的简单尝试"""
+	def __init__(self, battery_size = 70, range = 0):
+		self.battery_size = battery_size
+		self.range = range
+
+	def describe_battery(self):
+		print("This car has a " + str(self.battery_size) + "-kWh battey.")
+
+	def get_range(self):
+		if self.battery_size == 70:
+			self.range = 240
+		elif self.battery_size == 85:
+			self.range = 270
+		message = "This car can go approximately " + str(self.range)
+		message += " miles on a full charge."
+		print(message)
+
+
 class ElectricCar(Car):
+	"""模拟电动汽车的独特之处"""
 	def __init__(self, make, model, year):
 		super().__init__(make, model, year)
+		self.battery = Battery()
 
 """ 执行语句 """
 #my_new_car = Car('audi', 'a4', 2016)
