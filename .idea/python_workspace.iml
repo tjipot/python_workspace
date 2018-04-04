@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.5.1 (/Library/Frameworks/Python.framework/Versions/3.5/bin/python3.5)" jdkType="Python SDK" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/com" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/com/univesre/demo/crawler" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 2.7.10 (/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
-    <option name="TEMPLATE_FOLDERS">
-      <list>
-        <option value="$MODULE_DIR$/python_lxf/P0-20/P19_Web开发/4_使用模板/templates" />
-      </list>
-    </option>
   </component>
   <component name="TestRunnerService">
     <option name="PROJECT_TEST_RUNNER" value="Unittests" />
