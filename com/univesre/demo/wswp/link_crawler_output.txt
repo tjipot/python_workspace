@@ -1,0 +1,162 @@
+## 没添加重复判断('seen')时的输出:
+/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 /Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py
+Downloading:  http://example.webscraping.com
+Downloading:  http://example.webscraping.com/places/default/index/1
+Downloading:  http://example.webscraping.com/places/default/index/2
+Downloading:  http://example.webscraping.com/places/default/index/3
+Downloading:  http://example.webscraping.com/places/default/index/4
+Downloading:  http://example.webscraping.com/places/default/index/5
+Downloading:  http://example.webscraping.com/places/default/index/6
+Downloading:  http://example.webscraping.com/places/default/index/7
+Downloading:  http://example.webscraping.com/places/default/index/8
+Downloading:  http://example.webscraping.com/places/default/index/9
+Downloading:  http://example.webscraping.com/places/default/index/10
+Downloading:  http://example.webscraping.com/places/default/index/11
+Downloading:  http://example.webscraping.com/places/default/index/12
+Downloading:  http://example.webscraping.com/places/default/index/13
+Downloading:  http://example.webscraping.com/places/default/index/14
+Downloading:  http://example.webscraping.com/places/default/index/15
+Downloading:  http://example.webscraping.com/places/default/index/16
+Downloading:  http://example.webscraping.com/places/default/index/17
+Downloading:  http://example.webscraping.com/places/default/index/18
+Downloading:  http://example.webscraping.com/places/default/index/19
+Downloading:  http://example.webscraping.com/places/default/index/20
+Downloading:  http://example.webscraping.com/places/default/index/21
+Downloading:  http://example.webscraping.com/places/default/index/22
+Downloading:  http://example.webscraping.com/places/default/index/23
+Downloading:  http://example.webscraping.com/places/default/index/24    # 24;
+Downloading:  http://example.webscraping.com/places/default/index/25    # 25;
+Downloading:  http://example.webscraping.com/places/default/index/24    # 24: 开始出现循环下载了..;
+Downloading:  http://example.webscraping.com/places/default/index/25
+Downloading:  http://example.webscraping.com/places/default/index/24
+Downloading:  http://example.webscraping.com/places/default/index/25
+Downloading:  http://example.webscraping.com/places/default/index/24
+Downloading:  http://example.webscraping.com/places/default/index/25
+Downloading:  http://example.webscraping.com/places/default/index/24
+Downloading:  http://example.webscraping.com/places/default/index/25
+Downloading:  http://example.webscraping.com/places/default/index/24
+Downloading:  http://example.webscraping.com/places/default/index/25
+Downloading:  http://example.webscraping.com/places/default/index/24
+Downloading:  http://example.webscraping.com/places/default/index/25
+Traceback (most recent call last):
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 113, in <module>
+    link_crawler('http://example.webscraping.com', r'/(index|view)*')
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 84, in link_crawler
+    html = download(url)
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 16, in download
+    html = urllib2.urlopen(request).read()              # urlopen参数可以是url以及request
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py", line 154, in urlopen
+    return opener.open(url, data, timeout)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py", line 431, in open
+    response = self._open(req, data)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py", line 449, in _open
+    '_open', req)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py", line 409, in _call_chain
+    result = func(*args)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py", line 1227, in http_open
+    return self.do_open(httplib.HTTPConnection, req)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py", line 1200, in do_open
+    r = h.getresponse(buffering=True)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/httplib.py", line 1132, in getresponse
+    response.begin()
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/httplib.py", line 453, in begin
+    version, status, reason = self._read_status()
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/httplib.py", line 409, in _read_status
+    line = self.fp.readline(_MAXLINE + 1)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/socket.py", line 480, in readline
+    data = self._sock.recv(self._rbufsize)
+socket.error: [Errno 54] Connection reset by peer
+
+Process finished with exit code 1
+
+
+## 添加了重复判断('seen')后的输出:
+## 1:
+/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 /Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py
+Downloading:  http://example.webscraping.com
+Downloading:  http://example.webscraping.com/places/default/index/1
+Downloading:  http://example.webscraping.com/places/default/index/2
+Downloading:  http://example.webscraping.com/places/default/index/3
+Downloading:  http://example.webscraping.com/places/default/index/4
+Downloading:  http://example.webscraping.com/places/default/index/5
+Downloading:  http://example.webscraping.com/places/default/index/6
+Downloading:  http://example.webscraping.com/places/default/index/7
+Downloading:  http://example.webscraping.com/places/default/index/8
+Downloading:  http://example.webscraping.com/places/default/index/9
+Downloading:  http://example.webscraping.com/places/default/index/10
+Downloading:  http://example.webscraping.com/places/default/index/11
+Download error:  TOO MANY REQUESTS
+Traceback (most recent call last):
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 116, in <module>
+    link_crawler('http://example.webscraping.com', r'/(index|view)*')
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 95, in link_crawler
+    for link in get_links(html):
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 113, in get_links
+    return webpage_regex.findall(html)
+TypeError: expected string or buffer
+
+Process finished with exit code 1
+
+
+## 2, Download error:  TOO MANY REQUESTS
+/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 /Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py
+Downloading:  http://example.webscraping.com
+Downloading:  http://example.webscraping.com/places/default/index/1
+Downloading:  http://example.webscraping.com/places/default/index/2
+Downloading:  http://example.webscraping.com/places/default/index/3
+Downloading:  http://example.webscraping.com/places/default/index/4
+Downloading:  http://example.webscraping.com/places/default/index/5
+Downloading:  http://example.webscraping.com/places/default/index/6
+Downloading:  http://example.webscraping.com/places/default/index/7
+Downloading:  http://example.webscraping.com/places/default/index/8
+Downloading:  http://example.webscraping.com/places/default/index/9
+Downloading:  http://example.webscraping.com/places/default/index/10
+Downloading:  http://example.webscraping.com/places/default/index/11
+Downloading:  http://example.webscraping.com/places/default/index/12
+Downloading:  http://example.webscraping.com/places/default/index/13
+Downloading:  http://example.webscraping.com/places/default/index/14
+Downloading:  http://example.webscraping.com/places/default/index/15
+Downloading:  http://example.webscraping.com/places/default/index/16
+Downloading:  http://example.webscraping.com/places/default/index/17
+Downloading:  http://example.webscraping.com/places/default/index/18
+Downloading:  http://example.webscraping.com/places/default/index/19
+Downloading:  http://example.webscraping.com/places/default/index/20
+Downloading:  http://example.webscraping.com/places/default/index/21
+Download error:  TOO MANY REQUESTS
+Traceback (most recent call last):
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 116, in <module>
+    link_crawler('http://example.webscraping.com', r'/(index|view)*')
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 95, in link_crawler
+    for link in get_links(html):
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 113, in get_links
+    return webpage_regex.findall(html)
+TypeError: expected string or buffer
+
+Process finished with exit code 1
+
+## 3, Download error:  TOO MANY REQUESTS
+/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 /Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py
+Downloading:  http://example.webscraping.com
+Download error:  TOO MANY REQUESTS
+Traceback (most recent call last):
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 116, in <module>
+    link_crawler('http://example.webscraping.com', r'/(index|view)*')
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 95, in link_crawler
+    for link in get_links(html):
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 113, in get_links
+    return webpage_regex.findall(html)
+TypeError: expected string or buffer
+/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 /Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py
+Downloading:  http://example.webscraping.com
+Download error:  TOO MANY REQUESTS
+Traceback (most recent call last):
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 116, in <module>
+    link_crawler('http://example.webscraping.com', r'/(index|view)*')
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 95, in link_crawler
+    for link in get_links(html):
+  File "/Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/crawlerCh01.py", line 113, in get_links
+    return webpage_regex.findall(html)
+TypeError: expected string or buffer
+
+Process finished with exit code 1
+
