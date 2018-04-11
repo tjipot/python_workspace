@@ -42,15 +42,12 @@ def bs4WebScrapDemo():
     td = tr.find(attrs={'class':'w2p_fw'})          # locate the area tag;
     area = td.text                                  # extract the text from this tag;
     print area
-bs4WebScrapDemo()   # "244,820 square kilometres"
+# bs4WebScrapDemo()   # "244,820 square kilometres"
 
 # Chapter 2.2.3 - Lxml: 是libxml2(解析xml的)的Python封装
-import lxml.html
-
-
-
-
-
+# import lxml.html
+# pip安装lxml未成功: 先跳过[ref: http://lxml.de/installation.html#requirements, https://pypi.python.org/pypi/lxml/3.6.0];
+# Source builds on MacOS-X: build instructions, [ref: http://lxml.de/build.html#building-lxml-on-macos-x];
 
 
 

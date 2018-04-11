@@ -2,7 +2,6 @@
 # /System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7            -命令
 # /Users/UNIVESRE/Documents/workspace_python/com/univesre/demo/wswp/ch01_crawler.py  -参数(文件)
 
-
 # WSWP Chapter 1.4.1, 下载网页 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # The urllib2 module defines functions and classes which help in opening URLs (mostly HTTP) in a complex world - basic
 # and digest authentication, redirections, cookies and more.
