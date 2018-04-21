@@ -9,7 +9,7 @@ import urllib.request           # 原先的urllib2(py2.x), 现在的urllib.reque
 # Helper Fn: 下载某个页面, 以下用法参照源码中的'common.py' ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 def download5(url, user_agent='wswp', proxy=None, num_retries=2):
     """Download function with support for proxies"""
-    print('download5() downloading:' + url)
+    print('"download5()" is downloading: ' + url)
     headers = {'User-agent': user_agent}                                    # 设置headers变量;
     request = urllib.request.Request(url, headers=headers)                  # 将headers和url设置进request中;
     # 声明一个opener: The opener will use several default handlers, including support for HTTP, FTP and when applicable, HTTPS;
@@ -121,8 +121,8 @@ import pymysql.cursors
 import uuid
 import time
 
-# 要插入的数据字段: 1.id, 2.name, 3.url, 4.txtCtnt, 5.createtime;
-def insertIntoDb(wsdName='', wsdUrl='', wsdTxtCtnt=''):
+# 要插入的数据字段: 1.id, 2.name, 3.url, 4.txtCtnt, 5.createtime, 6.comment, 7.numbering;
+def insertIntoDb(wsdName='', wsdUrl='', wsdTxtCtnt='', wsdComment='', wsdNumbering=''):
     # 数据组装;
     wsdId = str(uuid.uuid1())
     wsdCreateTime = int(round(time.time() * 1000))
@@ -136,9 +136,9 @@ def insertIntoDb(wsdName='', wsdUrl='', wsdTxtCtnt=''):
 
     try:
         with connection.cursor() as cursor:
-            sql = "INSERT INTO `wikiScrapDemo` (`wsd_id`, `wsd_name`, `wsd_url`, `wsd_txtCtnt`, `wsd_createTime`) " \
-                  "VALUES (%s, %s, %s, %s, %s)"
-            cursor.execute(sql, (wsdId, wsdName, wsdUrl, wsdTxtCtnt, wsdCreateTime))    # wsdCreateTime隐式转成str了;
+            sql = "INSERT INTO `wikiScrapDemo` (`wsd_id`, `wsd_name`, `wsd_url`, `wsd_txtCtnt`, `wsd_createTime`, `wsd_comment`, `wsd_numbering`) " \
+                  "VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            cursor.execute(sql, (wsdId, wsdName, wsdUrl, wsdTxtCtnt, wsdCreateTime, wsdComment, wsdNumbering))    # wsdCreateTime隐式转成str了;
             connection.commit()
 
         # with connection.cursor() as cursor:
@@ -159,8 +159,176 @@ def finalInsert():
     for i in range(0, len(theLinks)):
         insertIntoDb(wsdName='NoName', wsdUrl=theLinks[i], wsdTxtCtnt=ctntList[i])
 
-# End: 模块完成, 调用运行:
-finalInsert()
+# 5.爬取单个页面 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def ctntPageScrapSingle(url):                                                               # 返回urlList中的页面内容
+    url02 = 'https://zh.wikipedia.org/wiki/%E5%8D%A0%E6%98%9F%E6%9C%AF'                     # 占星术
+    url03 = 'https://zh.wikipedia.org/wiki/%E8%A5%BF%E6%B4%8B%E5%8D%A0%E6%98%9F%E8%A1%93'   # 西洋占星术
+
+    # Wiki搜索也是20个结果一页的;
+    wikiHtml = download(url)                                                       # 获取页面的HTML内容;
+    wikiSoup = BeautifulSoup(wikiHtml, 'html.parser')                                   # 开始解析HTML结果;
+    # 初始化抓取内容;# 初始化单页内容文本;
+    textCtnt = '\n'
+    # 1.抓取'h1'内容;
+    h1Content = wikiSoup.find(attrs={'class':'firstHeading'})
+    textCtnt += '一级标题: '
+    textCtnt += h1Content.text
+    # 2.抓取主题内容;
+    divContent = wikiSoup.find(attrs={'class':'mw-parser-output'})                      # 'mw-parser-output'是内容主体
+    # print wikiHtml
+    # print type(divContent)  # <class 'bs4.element.Tag'>
+
+    # 分类规则: <h>元素(h2, h3, h4), <p>元素
+    return horizontalTraverser(divContent, textCtnt)
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def horizontalTraverser(parentTag, scrawlContent):
+    # print('ABC: ', parentTag.text)    # 简单粗暴的方法;
+    for childTag in parentTag.children:            # .children是纵向遍历, 下面的if else是横向遍历;
+        if isinstance(childTag , bs4.element.Tag): # bs4.element.NavigableString
+            if childTag.name == 'p':               # 需处理的元素类型(内容div下): p, h2, h3, h4, ul, 不处理: div;
+                scrawlContent += '\n'
+                scrawlContent += childTag.text
+            elif childTag.name == 'h1':
+                scrawlContent += '\n\n\n\n\n'
+                scrawlContent += '一级标题: '
+                scrawlContent += childTag.text
+            elif childTag.name == 'h2':
+                scrawlContent += '\n\n\n\n'
+                scrawlContent += '二级标题: '     # '##'
+                scrawlContent += childTag.text
+            elif childTag.name == 'h3':
+                scrawlContent += '\n\n\n'
+                scrawlContent += '三级标题: '     # '###'
+                scrawlContent += childTag.text
+            elif childTag.name == 'h4':
+                scrawlContent += '\n\n'
+                scrawlContent += '四级标题: '     # '####'
+                scrawlContent += childTag.text
+            elif childTag.name == 'blockquote':
+                # print('blockquote', childTag)
+                # for blockquoteChild in childTag:
+                scrawlContent += '\n'
+                scrawlContent += '以下是引用: '  # '####'
+                scrawlContent += childTag.text
+            elif childTag.name == 'dl':
+                scrawlContent += '\n'
+                scrawlContent += childTag.text
+            elif childTag.name == 'table':
+                scrawlContent += '\n\n'
+                scrawlContent += '以下是表格内容: '  # '####'
+                scrawlContent += childTag.text
+            elif childTag.name == 'ul' or childTag.name == 'ol': # div下ul处理逻辑: 提取ul直接包括的元素li下的第一子集: b或a或p;
+                # print(child.children)
+                try:
+                    for liEle in childTag.children:
+                        if liEle.name == 'li':
+                            scrawlContent += '\n\t'
+                            scrawlContent += liEle.text     # print(liEle.text), 即可以提取li下面的所有text文本: 简单干脆!
+                            scrawlContent += ' '
+                except:
+                    print('发生了Error!')
+            else:
+                pass
+    return scrawlContent
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def horizontalTraverserBak(parentTag, scrawlContent):
+    print('ABC: ', parentTag.text)
+    for childTag in parentTag.children:            # .children是纵向遍历, 下面的if else是横向遍历;
+        if isinstance(childTag , bs4.element.Tag): # bs4.element.NavigableString
+            if childTag.name == 'p':               # 需处理的元素类型(内容div下): p, h2, h3, h4, ul, 不处理: div;
+                scrawlContent += '\n'
+                scrawlContent += childTag.text
+            elif childTag.name == 'h1':
+                scrawlContent += '\n\n\n\n\n'
+                scrawlContent += '一级标题: '
+                scrawlContent += childTag.text
+            elif childTag.name == 'h2':
+                scrawlContent += '\n\n\n\n'
+                scrawlContent += '二级标题: '     # '##'
+                scrawlContent += childTag.text
+            elif childTag.name == 'h3':
+                scrawlContent += '\n\n\n'
+                scrawlContent += '三级标题: '     # '###'
+                scrawlContent += childTag.text
+            elif childTag.name == 'h4':
+                scrawlContent += '\n\n'
+                scrawlContent += '四级标题: '     # '####'
+                scrawlContent += childTag.text
+            elif childTag.name == 'ul' or childTag.name == 'ol': # div下ul处理逻辑: 提取ul直接包括的元素li下的第一子集: b或a或p;
+                # print(child.children)
+                try:
+                    for liEle in childTag.children:
+                        if liEle.name == 'li':
+                            scrawlContent += '\n\t'
+                            scrawlContent += liEle.text     # print(liEle.text), 即可以提取li下面的所有text文本: 简单干脆!
+                            scrawlContent += ' '
+                            # print(liEle.name)           # liEle.name = 本名或'None'
+                            # if isinstance(liEle, bs4.element.Tag):    # 提取出ul的li, 排除'\n';
+                            # Seperater分隔 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+                            # tmpIndex = 0                            # 每一个li元素, 重置;
+                            # for liFirstChildEle in liEle:
+                            #     print(liFirstChildEle.text)
+                            #     scrawlContent += '\n'
+                            #     scrawlContent += liFirstChildEle.text
+                            #     scrawlContent += ' '
+                            #     tmpIndex += 1
+                            #     if tmpIndex != 0:
+                            #         break
+                except:
+                    print('发生了Error!')
+                    # 省略: 参考文献, 外部链接;
+                    # liFirstChildEle = liEle.children    # .__getitem__(0)
+                    # print(liFirstChildEle)
+                    # if liFirstChildEle.__next__().name == 'b' or liFirstChildEle.__next__().name == 'a':
+                    #     print(liFirstChildEle.__next__().text)
+            else:
+                pass
+    return scrawlContent
+
+def singlePageInsert(): # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # -- Method 01;
+    # urlName = '天王星'
+    # urlUrl  = 'https://zh.wikipedia.org/wiki/%E5%A4%A9%E7%8E%8B%E6%98%9F'
+    # -- Method 02;
+    # urlFromExcel = "天狼星	https://zh.wikipedia.org/wiki/%E5%A4%A9%E7%8B%BC%E6%98%9F"
+    # urlName, urlUrl = urlFromExcel.split("\t")
+    # -- Method 03;
+    tupleEntries = readEntriesFromFile("/Users/UNIVESRE/Desktop/03哲学.TXT")
+    for eachTuple in tupleEntries:
+        numbering, name, url, comment = eachTuple
+        ctnt = '无对应网页'
+        if url != '无':              # 有对应的网页, 需爬, 再插入到数据库;
+            ctnt = ctntPageScrapSingle(url)
+        insertIntoDb(wsdName=name, wsdUrl=url, wsdTxtCtnt=ctnt, wsdComment=comment, wsdNumbering=numbering)
+        # 微处理下文件名: 在文件名最前面添加'numbering'的数字部分;
+        numberPart = numbering[:-3:-1]  # 逆序获取最后两位: 'TAROT01' -> '10';
+        numberPart = numberPart[::-1]   # 翻转字符串: '10' -> '01';
+        fileName = numberPart + name    # 拼接: 数字部分 + 名称部分;
+        createTxtFile(fileName, ctnt)   # 生成文件;
 
 
-import sys
+# Helper Fn ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def createTxtFile(fileName, fileContent):
+    with open("/Users/UNIVESRE/Desktop/%s.TXT"%fileName, "w") as f:
+        f.write(fileContent)
+    print(fileName, "File Written!")
+
+
+# Helper Fn ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def readEntriesFromFile(fileName):
+    urlTupleEntries = []
+    for line in open(fileName):
+        lineWithoutRowBreak = line.replace('\n', '')   # 行尾有一个'\n', 提取之后只剩一个元素
+        numbering, name, url, comment = lineWithoutRowBreak.split('\t')
+        lineTuple = (numbering, name, url, comment)
+        urlTupleEntries.append(lineTuple)
+    # 返回一个(元组)数组;
+    return urlTupleEntries
+
+
+# End: 模块完成, 调用运行 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# finalInsert()     # 从搜索页面开始插入数据库;
+# readEntriesFromFile("/Users/UNIVESRE/Desktop/02塔罗.TXT")
+singlePageInsert()  # 单独一个页面插入数据;
