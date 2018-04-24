@@ -232,7 +232,7 @@ def horizontalTraverser(parentTag, scrawlContent):
                 pass
     return scrawlContent
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# horizontalTraverser的备份 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 def horizontalTraverserBak(parentTag, scrawlContent):
     print('ABC: ', parentTag.text)
     for childTag in parentTag.children:            # .children是纵向遍历, 下面的if else是横向遍历;
@@ -295,13 +295,19 @@ def singlePageInsert(): # ++++++++++++++++++++++++++++++++++++++++++++++++++++++
     # urlFromExcel = "天狼星	https://zh.wikipedia.org/wiki/%E5%A4%A9%E7%8B%BC%E6%98%9F"
     # urlName, urlUrl = urlFromExcel.split("\t")
     # -- Method 03;
-    tupleEntries = readEntriesFromFile("/Users/UNIVESRE/Desktop/03哲学.TXT")
+    tupleEntries = readEntriesFromFile("/Users/UNIVESRE/Desktop/有异常的链接合辑.TXT")
     for eachTuple in tupleEntries:
         numbering, name, url, comment = eachTuple
         ctnt = '无对应网页'
         if url != '无':              # 有对应的网页, 需爬, 再插入到数据库;
             ctnt = ctntPageScrapSingle(url)
-        insertIntoDb(wsdName=name, wsdUrl=url, wsdTxtCtnt=ctnt, wsdComment=comment, wsdNumbering=numbering)
+        try:
+            pass
+            # insertIntoDb(wsdName=name, wsdUrl=url, wsdTxtCtnt=ctnt, wsdComment=comment, wsdNumbering=numbering)
+        except:
+            print("##### 文件'", numbering, "'有异常字符!")
+        finally:
+            pass
         # 微处理下文件名: 在文件名最前面添加'numbering'的数字部分;
         numberPart = numbering[:-3:-1]  # 逆序获取最后两位: 'TAROT01' -> '10';
         numberPart = numberPart[::-1]   # 翻转字符串: '10' -> '01';
