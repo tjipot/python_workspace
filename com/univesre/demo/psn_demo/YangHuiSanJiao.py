@@ -1,6 +1,7 @@
 '''#! /usr/bin/env python3'''
 '''NOV 06, 2016'''
 '''Concept: Generator In Python'''
+import numpy as np
 
 def triangles():
     #result_line = []
